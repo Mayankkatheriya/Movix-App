@@ -13,6 +13,7 @@ const useFetch = (url) => {
     fetchDataFromApi(url)
       .then((res) => {
         setLoading(false);
+        // console.log(res);
         setData(res);
       })
       .catch((err) => {
