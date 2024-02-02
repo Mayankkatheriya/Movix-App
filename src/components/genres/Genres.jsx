@@ -5,7 +5,6 @@ import "./Styles.scss";
 
 const Genres = ({ data }) => {
   const genres = useSelector((store) => store.home.genres);
-  console.log(genres);
 
   return (
     <div className="genres">
