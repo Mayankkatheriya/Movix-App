@@ -1,3 +1,4 @@
+// PlayIcon component to render a play button icon
 export const PlayIcon = () => {
   return (
     <svg
@@ -12,6 +13,7 @@ export const PlayIcon = () => {
       enableBackground="new 0 0 213.7 213.7"
       xmlSpace="preserve"
     >
+      {/* Triangle path representing the play button */}
       <polygon
         className="triangle"
         fill="none"
@@ -21,6 +23,8 @@ export const PlayIcon = () => {
         strokeMiterlimit="10"
         points="73.5,62.5 148.5,105.8 73.5,149.1 "
       ></polygon>
+
+      {/* Circle path representing the play button */}
       <circle
         className="circle"
         fill="none"

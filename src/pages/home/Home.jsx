@@ -1,11 +1,16 @@
-import React from 'react'
-import './styles.scss'
-import HeroBanner from './heroBanner/HeroBanner'
-import Trending from './trending/Trending'
-import Popular from './popular/Popular'
-import TopRated from './topRated/TopRated'
+// Import React and component styles
+import React from "react";
+import "./styles.scss";
 
+// Import individual sections/components
+import HeroBanner from "./heroBanner/HeroBanner";
+import Trending from "./trending/Trending";
+import Popular from "./popular/Popular";
+import TopRated from "./topRated/TopRated";
+
+// Main Home component
 const Home = () => {
+  // Return the component structure with various sections
   return (
     <div>
       <HeroBanner />
@@ -13,7 +18,8 @@ const Home = () => {
       <Popular />
       <TopRated />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+// Export the Home component
+export default Home;

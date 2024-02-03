@@ -1,7 +1,10 @@
+// Import necessary dependencies and styles
 import React from "react";
 
+// Import local styles
 import "./styles.scss";
 
+// Functional component for a loading spinner
 const Spinner = ({ initial }) => {
   return (
     <div className={`loadingSpinner ${initial ? "initial" : ""}`}>

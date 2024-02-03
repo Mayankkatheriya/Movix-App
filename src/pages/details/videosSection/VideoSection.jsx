@@ -8,9 +8,12 @@ import VideoPopup from "../../../components/videoPopup/VideoPopup";
 import Img from "../../../components/lazyLoadingImage/Img";
 
 const VideosSection = ({ data, loading }) => {
+  // State for showing/hiding video popup
   const [show, setShow] = useState(false);
+  // State for storing the video ID
   const [videoId, setVideoId] = useState(null);
 
+  // Skeleton loader for loading state
   const loadingSkeleton = () => {
     return (
       <div className="skItem">
@@ -24,10 +27,13 @@ const VideosSection = ({ data, loading }) => {
   return (
     <div className="videosSection">
       <ContentWrapper>
+        {/* Section heading */}
         <div className="sectionHeading">Official Videos</div>
         {!loading ? (
+          // Render videos when data is available
           <div className="videos">
             {data?.results?.map((video) => (
+              // Video item with thumbnail, play button, and title
               <div
                 key={video.id}
                 className="videoItem"
@@ -36,17 +42,20 @@ const VideosSection = ({ data, loading }) => {
                   setShow(true);
                 }}
               >
+                {/* Video thumbnail with lazy-loading image */}
                 <div className="videoThumbnail">
                   <Img
                     src={`https://img.youtube.com/vi/${video.key}/mqdefault.jpg`}
                   />
                   <PlayIcon />
                 </div>
+                {/* Video title */}
                 <div className="videoTitle">{video.name}</div>
               </div>
             ))}
           </div>
         ) : (
+          // Loading state: skeleton loaders
           <div className="videoSkeleton">
             {loadingSkeleton()}
             {loadingSkeleton()}
@@ -55,6 +64,7 @@ const VideosSection = ({ data, loading }) => {
           </div>
         )}
       </ContentWrapper>
+      {/* Video popup component */}
       <VideoPopup
         show={show}
         setShow={setShow}

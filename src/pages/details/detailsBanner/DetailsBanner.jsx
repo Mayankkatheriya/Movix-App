@@ -15,20 +15,27 @@ import VideoPopup from "../../../components/videoPopup/VideoPopup";
 import { PlayIcon } from "../Playbtn";
 
 const DetailsBanner = ({ video, crew }) => {
+  // State for showing/hiding video popup
   const [show, setShow] = useState(false);
+  // State for storing the video ID
   const [videoId, setVideoId] = useState(null);
+  // Extracting mediaType and id from URL parameters
   const { mediaType, id } = useParams();
+  // Fetching data for the main content details
   const { data, loading } = useFetch(`/${mediaType}/${id}`);
-
+  // Fetching the base URL from the Redux store
   const url = useSelector((store) => store.home.url);
 
+  // Genres IDs for the Genres component
   const _genres = data?.genres?.map((gen) => gen.id);
 
+  // Filtering crew members for director and writer
   const director = crew?.filter((f) => f.job === "Director");
   const writer = crew?.filter(
     (f) => f.job === "Screenplay" || f.job === "Story" || f.job === "Writer"
   );
 
+  // Function to convert total minutes to hours and minutes format
   const toHoursAndMinutes = (totalMinutes) => {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
@@ -41,12 +48,15 @@ const DetailsBanner = ({ video, crew }) => {
         <>
           {!!data && (
             <>
+              {/* Backdrop image */}
               <div className="backdrop-img">
                 <Img src={url.backdrop + data.backdrop_path} />
               </div>
               <div className="opacity-layer"></div>
               <ContentWrapper>
+                {/* Content section */}
                 <div className="content">
+                  {/* Left side: poster image */}
                   <div className="left">
                     {data.poster_path ? (
                       <Img
@@ -57,7 +67,9 @@ const DetailsBanner = ({ video, crew }) => {
                       <Img className="posterImg" src={PosterFallback} />
                     )}
                   </div>
+                  {/* Right side: details and information */}
                   <div className="right">
+                    {/* Title and tagline */}
                     <div className="title">
                       {`${data.name || data.title} (${dayjs(
                         data.release_date
@@ -65,6 +77,7 @@ const DetailsBanner = ({ video, crew }) => {
                     </div>
                     <div className="subtitle">{data.tagline}</div>
 
+                    {/* Genres, Rating, and Play button */}
                     <Genres data={_genres} />
                     <div className="row">
                       <CircleRating rating={data.vote_average.toFixed(1)} />
@@ -80,11 +93,13 @@ const DetailsBanner = ({ video, crew }) => {
                       </div>
                     </div>
 
+                    {/* Overview section */}
                     <div className="overview">
                       <div className="heading">Overview</div>
                       <div className="description">{data.overview}</div>
                     </div>
 
+                    {/* Additional information */}
                     <div className="info">
                       {data.status && (
                         <div className="infoItem">
@@ -109,6 +124,8 @@ const DetailsBanner = ({ video, crew }) => {
                         </div>
                       )}
                     </div>
+
+                    {/* Director and Writer information */}
                     {director?.length > 0 && (
                       <div className="info">
                         <span className="text bold">Director: </span>
@@ -137,6 +154,7 @@ const DetailsBanner = ({ video, crew }) => {
                       </div>
                     )}
 
+                    {/* Creator information */}
                     {data?.created_by?.length > 0 && (
                       <div className="info">
                         <span className="text bold">Creator: </span>
@@ -152,6 +170,7 @@ const DetailsBanner = ({ video, crew }) => {
                     )}
                   </div>
                 </div>
+                {/* Video popup component */}
                 <VideoPopup
                   show={show}
                   setShow={setShow}
@@ -163,6 +182,7 @@ const DetailsBanner = ({ video, crew }) => {
           )}
         </>
       ) : (
+        /* Loading state: skeleton loaders */
         <div className="detailsBannerSkeleton">
           <ContentWrapper>
             <div className="left skeleton"></div>

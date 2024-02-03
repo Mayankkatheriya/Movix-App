@@ -1,3 +1,4 @@
+// Import React, useRef, React icons, Router hooks, and styles
 import React, { useRef } from "react";
 import {
   BsFillArrowLeftCircleFill,
@@ -7,20 +8,23 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 
+// Import components and assets
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Img from "../lazyLoadingImage/Img";
 import PosterFallback from "../../assets/no-poster.png";
-
-import "./styles.scss";
 import CircleRating from "../circleRating/CircleRating";
 import Genres from "../genres/Genres";
 
+import "./styles.scss";
+
+// Main Carousel component
 const Carousel = ({ data, loading, endpoint, title }) => {
-  // console.log(data);
+  // Ref for carousel container and Redux store selector for API URL
   const carouselContainer = useRef();
   const url = useSelector((store) => store.home.url);
-  const navigate = useNavigate();
 
+  // Navigation function for scrolling left or right
+  const navigate = useNavigate();
   const navigation = (dir) => {
     const container = carouselContainer.current;
 
@@ -35,6 +39,7 @@ const Carousel = ({ data, loading, endpoint, title }) => {
     });
   };
 
+  // Skeleton item component for loading state
   const skItem = () => {
     return (
       <div className="skeletonItem">
@@ -47,6 +52,7 @@ const Carousel = ({ data, loading, endpoint, title }) => {
     );
   };
 
+  // Return the component structure with title, navigation arrows, and content
   return (
     <div className="carousel">
       <ContentWrapper>
@@ -103,4 +109,5 @@ const Carousel = ({ data, loading, endpoint, title }) => {
   );
 };
 
+// Export the Carousel component
 export default Carousel;

@@ -27,15 +27,22 @@ const sortbyData = [
 ];
 
 const Explore = () => {
+  // State for storing media data
   const [data, setData] = useState(null);
+  // State for tracking the current page number
   const [pageNum, setPageNum] = useState(1);
+  // State for loading indicator
   const [loading, setLoading] = useState(false);
+  // State for selected genre filter
   const [genre, setGenre] = useState(null);
+  // State for selected sort by filter
   const [sortby, setSortby] = useState(null);
+  // Get the media type from the URL parameters
   const { mediaType } = useParams();
-
+  // Fetch genres data using custom hook
   const { data: genresData } = useFetch(`/genre/${mediaType}/list`);
 
+  // Function to fetch initial data
   const fetchInitialData = () => {
     setLoading(true);
     fetchDataFromApi(`/discover/${mediaType}`, filters).then((res) => {
@@ -45,23 +52,24 @@ const Explore = () => {
     });
   };
 
+  // Function to fetch next page data
   const fetchNextPageData = () => {
-    fetchDataFromApi(
-      `/discover/${mediaType}?page=${pageNum}`,
-      filters
-    ).then((res) => {
-      if (data?.results) {
-        setData({
-          ...data,
-          results: [...data?.results, ...res.results],
-        });
-      } else {
-        setData(res);
+    fetchDataFromApi(`/discover/${mediaType}?page=${pageNum}`, filters).then(
+      (res) => {
+        if (data?.results) {
+          setData({
+            ...data,
+            results: [...data?.results, ...res.results],
+          });
+        } else {
+          setData(res);
+        }
+        setPageNum((prev) => prev + 1);
       }
-      setPageNum((prev) => prev + 1);
-    });
+    );
   };
 
+  // useEffect to fetch initial data when the component mounts or when the media type changes
   useEffect(() => {
     filters = {};
     setData(null);
@@ -71,6 +79,7 @@ const Explore = () => {
     fetchInitialData();
   }, [mediaType]);
 
+  // Event handler for filter changes
   const onChange = (selectedItems, action) => {
     if (action.name === "sortby") {
       setSortby(selectedItems);
@@ -101,11 +110,10 @@ const Explore = () => {
       <ContentWrapper>
         <div className="pageHeader">
           <div className="pageTitle">
-            {mediaType === "tv"
-              ? "Explore TV Shows"
-              : "Explore Movies"}
+            {mediaType === "tv" ? "Explore TV Shows" : "Explore Movies"}
           </div>
           <div className="filters">
+            {/* Dropdown for selecting genres */}
             <Select
               isMulti
               name="genres"
@@ -119,6 +127,7 @@ const Explore = () => {
               className="react-select-container genresDD"
               classNamePrefix="react-select"
             />
+            {/* Dropdown for selecting sort by option */}
             <Select
               name="sortby"
               value={sortby}
@@ -135,6 +144,7 @@ const Explore = () => {
         {!loading && (
           <>
             {data?.results?.length > 0 ? (
+              // Infinite scroll component for loading more results
               <InfiniteScroll
                 className="content"
                 dataLength={data?.results?.length || []}
@@ -142,21 +152,17 @@ const Explore = () => {
                 hasMore={pageNum <= data?.total_pages}
                 loader={<Spinner />}
               >
+                {/* Map through results and render MovieCard component */}
                 {data?.results?.map((item, index) => {
-                  if (item.media_type === "person") return;
+                  if (item.media_type === "person") return null;
                   return (
-                    <MovieCard
-                      key={index}
-                      data={item}
-                      mediaType={mediaType}
-                    />
+                    <MovieCard key={index} data={item} mediaType={mediaType} />
                   );
                 })}
               </InfiniteScroll>
             ) : (
-              <span className="resultNotFound">
-                Sorry, Results not found!
-              </span>
+              // Render message when no results are found
+              <span className="resultNotFound">Sorry, Results not found!</span>
             )}
           </>
         )}

@@ -1,15 +1,16 @@
+// Import React, icons, and component styles
 import React, { useState, useEffect } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import "./styles.scss";
-
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
 
+// Header component with navigation, search, and mobile menu functionality
 const Header = () => {
+  // State variables
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -17,6 +18,7 @@ const Header = () => {
   const [showSearch, setShowSearch] = useState("");
   const navigate = useNavigate();
 
+  // Control the appearance of the header based on scroll position
   const controlNavbar = () => {
     if (window.scrollY > 200) {
       if (window.scrollY > lastScrollY && !mobileMenu) {
@@ -30,6 +32,7 @@ const Header = () => {
     setLastScrollY(window.scrollY);
   };
 
+  // Event listener for scroll
   useEffect(() => {
     window.addEventListener("scroll", controlNavbar);
     return () => {
@@ -37,16 +40,19 @@ const Header = () => {
     };
   }, [lastScrollY]);
 
+  // Open the search bar
   const openSearch = () => {
     setMobileMenu(false);
     setShowSearch(true);
   };
 
+  // Open the mobile menu
   const openMobileMenu = () => {
     setMobileMenu(true);
     setShowSearch(false);
   };
 
+  // Handle search input and navigate on Enter key
   const searchQueryHandler = (event) => {
     if (event.key === "Enter" && query.length > 0) {
       navigate(`/search/${query}`);
@@ -56,6 +62,7 @@ const Header = () => {
     }
   };
 
+  // Handle navigation to movie or TV show explore pages
   const navigationHandler = (type) => {
     if (type === "movie") {
       navigate("/explore/movie");
@@ -65,12 +72,15 @@ const Header = () => {
     setMobileMenu(false);
   };
 
+  // Render the header component
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
       <ContentWrapper>
+        {/* Logo */}
         <div className="logo" onClick={() => navigate("/")}>
           <img src={logo} alt="" />
         </div>
+        {/* Desktop menu items */}
         <ul className="menuItems">
           <li className="menuItem" onClick={() => navigationHandler("movie")}>
             Movies
@@ -82,7 +92,7 @@ const Header = () => {
             <HiOutlineSearch onClick={openSearch} />
           </li>
         </ul>
-
+        {/* Mobile menu items */}
         <div className="mobileMenuItems">
           <HiOutlineSearch onClick={openSearch} />
           {mobileMenu ? (
@@ -92,6 +102,7 @@ const Header = () => {
           )}
         </div>
       </ContentWrapper>
+      {/* Search bar */}
       {showSearch && (
         <div className="searchBar">
           <ContentWrapper>
@@ -111,4 +122,5 @@ const Header = () => {
   );
 };
 
+// Export the Header component
 export default Header;
