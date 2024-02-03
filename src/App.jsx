@@ -27,7 +27,7 @@ const App = () => {
           element: <Details />,
         },
         {
-          path: "/:search/:query",
+          path: "/search/:query",
           element: <SearchResults />,
         },
         {
