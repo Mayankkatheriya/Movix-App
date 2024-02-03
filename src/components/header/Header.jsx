@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import "./styles.scss";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
@@ -83,10 +83,18 @@ const Header = () => {
         {/* Desktop menu items */}
         <ul className="menuItems">
           <li className="menuItem" onClick={() => navigationHandler("movie")}>
-            Movies
+            <NavLink to={"/explore/movie"}>
+              {({ isActive }) => (
+                <span className={isActive ? "tab-active" : ""}>Movies</span>
+              )}
+            </NavLink>
           </li>
           <li className="menuItem" onClick={() => navigationHandler("tv")}>
-            TV Shows
+            <NavLink to={"/explore/tv"}>
+            {({ isActive }) => (
+                <span className={isActive ? "tab-active" : ""}>TV Shows</span>
+              )}
+            </NavLink>
           </li>
           <li className="menuItem">
             <HiOutlineSearch onClick={openSearch} />
