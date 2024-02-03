@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import "./styles.scss";
 
@@ -6,12 +6,31 @@ import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import { PlayIcon } from "../Playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
 import Img from "../../../components/lazyLoadingImage/Img";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
 
 const VideosSection = ({ data, loading }) => {
   // State for showing/hiding video popup
   const [show, setShow] = useState(false);
   // State for storing the video ID
   const [videoId, setVideoId] = useState(null);
+  const carouselContainer = useRef();
+
+  const navigation = (dir) => {
+    const container = carouselContainer.current;
+
+    const scrollAmount =
+      dir === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   // Skeleton loader for loading state
   const loadingSkeleton = () => {
@@ -29,9 +48,19 @@ const VideosSection = ({ data, loading }) => {
       <ContentWrapper>
         {/* Section heading */}
         <div className="sectionHeading">Official Videos</div>
+
+        <BsFillArrowLeftCircleFill
+          className="carouselLeftNav arrow"
+          onClick={() => navigation("left")}
+        />
+        <BsFillArrowRightCircleFill
+          className="carouselRightNav arrow"
+          onClick={() => navigation("right")}
+        />
+
         {!loading ? (
           // Render videos when data is available
-          <div className="videos">
+          <div className="videos" ref={carouselContainer}>
             {data?.results?.map((video) => (
               // Video item with thumbnail, play button, and title
               <div

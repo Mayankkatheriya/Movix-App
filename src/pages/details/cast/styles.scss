@@ -7,17 +7,42 @@
     color: white;
     margin-bottom: 25px;
   }
+  .arrow {
+    font-size: 30px;
+    color: black;
+    position: absolute;
+    top: 44%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.5;
+    z-index: 1;
+    display: none;
+    @include md {
+      display: block;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .carouselLeftNav {
+    left: 30px;
+  }
+  .carouselRightNav {
+    right: 30px;
+  }
   .listItems {
     display: flex;
     gap: 20px;
     overflow-y: hidden;
     margin-right: -20px;
     margin-left: -20px;
+    position: relative;
     padding: 0 20px;
     @include md {
       margin: 0;
       padding: 0;
     }
+    
     .listItem {
       text-align: center;
       color: white;
@@ -38,6 +63,11 @@
           object-fit: cover;
           object-position: center top;
           display: block;
+          transition: transform .2s ease-in-out;
+
+          &:hover {
+            transform: scale(1.1);
+          }
         }
       }
       .name {

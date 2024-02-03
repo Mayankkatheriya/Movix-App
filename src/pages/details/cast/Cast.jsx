@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import "./styles.scss";
@@ -6,10 +6,29 @@ import "./styles.scss";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import Img from "../../../components/lazyLoadingImage/Img";
 import avatar from "../../../assets/avatar.png";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
 
 const Cast = ({ data, loading }) => {
   // Fetching the base URL for profile images from the Redux store
   const { url } = useSelector((state) => state.home);
+  const carouselContainer = useRef();
+
+  const navigation = (dir) => {
+    const container = carouselContainer.current;
+
+    const scrollAmount =
+      dir === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   // Skeleton component for loading state
   const skeleton = () => {
@@ -28,9 +47,18 @@ const Cast = ({ data, loading }) => {
         {/* Displaying section heading */}
         <div className="sectionHeading">Top Cast</div>
 
+        <BsFillArrowLeftCircleFill
+          className="carouselLeftNav arrow"
+          onClick={() => navigation("left")}
+        />
+        <BsFillArrowRightCircleFill
+          className="carouselRightNav arrow"
+          onClick={() => navigation("right")}
+        />
+
         {/* Checking if the data is loaded */}
         {!loading ? (
-          <div className="listItems">
+          <div className="listItems" ref={carouselContainer}>
             {data?.map((item) => {
               // Generating the image URL for the cast member
               let imgUrl = item.profile_path
