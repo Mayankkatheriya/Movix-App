@@ -48,15 +48,18 @@ const VideosSection = ({ data, loading }) => {
       <ContentWrapper>
         {/* Section heading */}
         <div className="sectionHeading">Official Videos</div>
-
-        <BsFillArrowLeftCircleFill
-          className="carouselLeftNav arrow"
-          onClick={() => navigation("left")}
-        />
-        <BsFillArrowRightCircleFill
-          className="carouselRightNav arrow"
-          onClick={() => navigation("right")}
-        />
+        {data?.results?.length > 3 && (
+          <>
+            <BsFillArrowLeftCircleFill
+              className="carouselLeftNav arrow"
+              onClick={() => navigation("left")}
+            />
+            <BsFillArrowRightCircleFill
+              className="carouselRightNav arrow"
+              onClick={() => navigation("right")}
+            />
+          </>
+        )}
 
         {!loading ? (
           // Render videos when data is available

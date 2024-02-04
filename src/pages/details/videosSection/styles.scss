@@ -1,7 +1,9 @@
 @import "../../../mixins.scss";
 .videosSection {
-  position: relative;
   margin-bottom: 50px;
+  .contentWrapper {
+    position: relative;
+  }
   .sectionHeading {
     font-size: 24px;
     color: white;

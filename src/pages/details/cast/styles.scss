@@ -1,7 +1,9 @@
 @import "../../../mixins.scss";
 .castSection {
-  position: relative;
   margin-bottom: 50px;
+  .contentWrapper {
+    position: relative;
+  }
   .sectionHeading {
     font-size: 24px;
     color: white;
@@ -42,7 +44,7 @@
       margin: 0;
       padding: 0;
     }
-    
+
     .listItem {
       text-align: center;
       color: white;
@@ -63,7 +65,7 @@
           object-fit: cover;
           object-position: center top;
           display: block;
-          transition: transform .2s ease-in-out;
+          transition: transform 0.2s ease-in-out;
 
           &:hover {
             transform: scale(1.1);

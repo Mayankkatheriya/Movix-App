@@ -46,15 +46,18 @@ const Cast = ({ data, loading }) => {
       <ContentWrapper>
         {/* Displaying section heading */}
         <div className="sectionHeading">Top Cast</div>
-
-        <BsFillArrowLeftCircleFill
-          className="carouselLeftNav arrow"
-          onClick={() => navigation("left")}
-        />
-        <BsFillArrowRightCircleFill
-          className="carouselRightNav arrow"
-          onClick={() => navigation("right")}
-        />
+        {data?.length > 6 && (
+          <>
+            <BsFillArrowLeftCircleFill
+              className="carouselLeftNav arrow"
+              onClick={() => navigation("left")}
+            />
+            <BsFillArrowRightCircleFill
+              className="carouselRightNav arrow"
+              onClick={() => navigation("right")}
+            />
+          </>
+        )}
 
         {/* Checking if the data is loaded */}
         {!loading ? (
